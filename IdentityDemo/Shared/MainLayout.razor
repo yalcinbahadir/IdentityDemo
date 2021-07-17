@@ -1,0 +1,30 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <AuthorizeView>
+                <Authorized>
+                    <a href="">Hello, @context.User.Identity.Name</a>
+                    <form action="cookie/logout" method="post">
+                        <input value="Logout" type="submit" class="btn btn-link" />
+                    </form>
+                   
+                </Authorized>
+                <NotAuthorized>
+                    <a href="login">Login</a>
+                    <a href="register">Register</a>
+                </NotAuthorized>
+            </AuthorizeView>
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿@page "/login"
+<h3>Login</h3>
+@if (ShowMessage)
+{
+    <div class="alert alert-danger text-white" >@Message</div>
+}
+
+<EditForm Model="@Model" OnValidSubmit="HandelValidSubmit" OnInvalidSubmit="HandelInValidSubmit" action="cookie/login" method="post" id="loginForm">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+    <div class="form-group">
+        <label>Email</label>
+        <InputText class="form-control" name="email" @bind-Value="Model.Email" />
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <InputText class="form-control" name="password" @bind-Value="Model.Password" />
+    </div>
+    <input type="submit" value="Login" class="btn btn-primary" />
+</EditForm>
+@code {
+
+    public LoginModel Model { get; set; } = new LoginModel();
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+    public string Message { get; set; }
+    public bool ShowMessage { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        Model = new LoginModel();
+        Message = Messanger.Message;
+        ShowMessage = Message != null;
+        base.OnInitialized();
+    }
+
+
+    private async Task HandelValidSubmit()
+    {
+        await JSRuntime.InvokeVoidAsync("submitForm");
+    }
+
+
+    private void HandelInValidSubmit()
+    {
+        // var test = _ModelState.Values;
+    }
+}
